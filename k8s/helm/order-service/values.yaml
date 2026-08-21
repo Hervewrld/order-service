@@ -1,0 +1,37 @@
+api:
+  image:
+    repository: order-service-api
+    tag: local
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  service:
+    port: 8000
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 128Mi
+
+worker:
+  image:
+    repository: order-service-worker
+    tag: local
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 128Mi
+
+redis:
+  image:
+    repository: redis
+    tag: 7-alpine
+    pullPolicy: IfNotPresent
+  service:
+    port: 6379

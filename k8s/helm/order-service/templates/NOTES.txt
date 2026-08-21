@@ -1,0 +1,8 @@
+order-service deployed.
+
+Check status:
+  kubectl get pods -l app.kubernetes.io/managed-by={{ .Release.Service }}
+
+Reach the API:
+  kubectl port-forward svc/api {{ .Values.api.service.port }}:{{ .Values.api.service.port }}
+  open http://localhost:{{ .Values.api.service.port }}/docs

@@ -16,7 +16,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 
 ## Project phases
 
-- [ ] **Phase 0 — App**: `src/api`, `src/worker`, `tests/`, `scripts/bootstrap.sh`
+- [x] **Phase 0 — App**: `src/api`, `src/worker`, `tests/`, `scripts/bootstrap.sh`
 - [ ] **Phase 1 — Git workflow**: branching, PRs, conventional commits (see `docs/git-workflow.md`)
 - [ ] **Phase 2 — Docker**: `docker/`, `docker-compose.yml`
 - [ ] **Phase 3 — Kubernetes**: `k8s/base` (raw manifests), `k8s/helm` (chart)

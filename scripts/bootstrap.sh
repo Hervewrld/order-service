@@ -33,5 +33,10 @@ else
   echo "(no requirements.txt yet - add one in Phase 0)"
 fi
 
+# 4. Install test dependencies (needed to run 'pytest' below)
+if [[ -f "tests/requirements.txt" ]]; then
+  pip3 install -q -r tests/requirements.txt
+fi
+
 echo "== bootstrap complete =="
 echo "Next: implement src/api and run 'pytest' from repo root."

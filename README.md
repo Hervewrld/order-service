@@ -18,7 +18,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 
 - [x] **Phase 0 — App**: `src/api`, `src/worker`, `tests/`, `scripts/bootstrap.sh`
 - [x] **Phase 1 — Git workflow**: branching, PRs, conventional commits (see `docs/git-workflow.md`)
-- [ ] **Phase 2 — Docker**: `docker/`, `docker-compose.yml`
+- [x] **Phase 2 — Docker**: `docker/`, `docker-compose.yml`
 - [ ] **Phase 3 — Kubernetes**: `k8s/base` (raw manifests), `k8s/helm` (chart)
 - [ ] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
 - [ ] **Phase 5 — CI/CD**: `.github/workflows/`
@@ -30,6 +30,16 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 ```bash
 ./scripts/bootstrap.sh      # sets up local env and runs health checks
 ```
+
+### With Docker
+
+```bash
+docker compose -f docker/docker-compose.yml up --build
+```
+
+Starts Redis, the API (`localhost:8000`, see `/docs` for Swagger UI), and the
+worker together. `Ctrl+C` to stop, or `docker compose -f docker/docker-compose.yml down`
+to remove the containers.
 
 ## Repo layout
 

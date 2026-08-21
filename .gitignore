@@ -28,6 +28,9 @@ override.tf.json
 # Docker
 *.log
 
+# Redis
+dump.rdb
+
 # Editors / OS
 .vscode/
 .idea/

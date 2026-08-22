@@ -20,7 +20,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 - [x] **Phase 1 — Git workflow**: branching, PRs, conventional commits (see `docs/git-workflow.md`)
 - [x] **Phase 2 — Docker**: `docker/`, `docker-compose.yml`
 - [x] **Phase 3 — Kubernetes**: `k8s/base` (raw manifests), `k8s/helm` (chart)
-- [ ] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
+- [x] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
 - [ ] **Phase 5 — CI/CD**: `.github/workflows/`
 - [ ] **Phase 6 — Observability**: `monitoring/dashboards`, `monitoring/alerts`
 - [ ] **Phase 7 — Chaos & postmortems**: `docs/postmortems/`
@@ -67,6 +67,24 @@ helm install order-service k8s/helm/order-service
 kubectl port-forward svc/api 8000:8000
 helm uninstall order-service              # tear down
 ```
+
+### With Terraform (real cloud infra)
+
+`terraform/modules` has network/gke/redis/postgres modules; `terraform/environments/dev`
+and `terraform/environments/prod` wire them together at different sizes. State
+is remote (GCS bucket `order-service-tfstate-494251076287`).
+
+```bash
+gcloud auth application-default login   # once per machine
+cd terraform/environments/dev
+terraform init
+terraform plan     # review before applying - this creates real, billable resources
+terraform apply
+```
+
+`prod` is written for reference but sized for real usage (3 nodes, HA Redis,
+bigger Postgres tier) - don't apply it casually. Always `terraform destroy`
+when done experimenting; nothing here should be left running unattended.
 
 ## Repo layout
 

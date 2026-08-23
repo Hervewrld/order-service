@@ -23,7 +23,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 - [x] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
 - [x] **Phase 5 — CI/CD**: `.github/workflows/`
 - [x] **Phase 6 — Observability**: `monitoring/dashboards`, `monitoring/alerts`
-- [ ] **Phase 7 — Chaos & postmortems**: `docs/postmortems/`
+- [x] **Phase 7 — Chaos & postmortems**: `docs/postmortems/`
 
 ## Local development
 
@@ -88,6 +88,20 @@ terraform apply
 `prod` is written for reference but sized for real usage (3 nodes, HA Redis,
 bigger Postgres tier) - don't apply it casually. Always `terraform destroy`
 when done experimenting; nothing here should be left running unattended.
+
+### Chaos testing
+
+`docs/postmortems/2026-08-23-redis-outage-chaos-test.md` is a real writeup
+from actually killing Redis mid-traffic (`docker stop docker-redis-1`)
+against the Docker Compose stack and watching what broke. To reproduce:
+
+```bash
+docker compose -f docker/docker-compose.yml up --build -d
+docker stop docker-redis-1     # inject the failure
+# watch: curl localhost:8000/health, docker logs docker-worker-1,
+# and http://localhost:9090/alerts
+docker start docker-redis-1    # recover
+```
 
 ## Repo layout
 

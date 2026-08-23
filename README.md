@@ -22,7 +22,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 - [x] **Phase 3 — Kubernetes**: `k8s/base` (raw manifests), `k8s/helm` (chart)
 - [x] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
 - [x] **Phase 5 — CI/CD**: `.github/workflows/`
-- [ ] **Phase 6 — Observability**: `monitoring/dashboards`, `monitoring/alerts`
+- [x] **Phase 6 — Observability**: `monitoring/dashboards`, `monitoring/alerts`
 - [ ] **Phase 7 — Chaos & postmortems**: `docs/postmortems/`
 
 ## Local development
@@ -37,9 +37,12 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 docker compose -f docker/docker-compose.yml up --build
 ```
 
-Starts Redis, the API (`localhost:8000`, see `/docs` for Swagger UI), and the
-worker together. `Ctrl+C` to stop, or `docker compose -f docker/docker-compose.yml down`
-to remove the containers.
+Starts Redis, the API (`localhost:8000`, see `/docs` for Swagger UI), the
+worker, and the monitoring stack (Prometheus at `localhost:9090`, Grafana at
+`localhost:3000` - anonymous viewer access, or `admin`/`admin`) together.
+The `order-service` Grafana dashboard and the Prometheus alert rules in
+`monitoring/alerts` are provisioned automatically. `Ctrl+C` to stop, or
+`docker compose -f docker/docker-compose.yml down` to remove the containers.
 
 ### With Kubernetes
 

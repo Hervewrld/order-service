@@ -21,7 +21,7 @@ client -> api (Flask/FastAPI) -> queue (Redis) -> worker -> db (Postgres)
 - [x] **Phase 2 — Docker**: `docker/`, `docker-compose.yml`
 - [x] **Phase 3 — Kubernetes**: `k8s/base` (raw manifests), `k8s/helm` (chart)
 - [x] **Phase 4 — Terraform**: `terraform/modules`, `terraform/environments/{dev,prod}`
-- [ ] **Phase 5 — CI/CD**: `.github/workflows/`
+- [x] **Phase 5 — CI/CD**: `.github/workflows/`
 - [ ] **Phase 6 — Observability**: `monitoring/dashboards`, `monitoring/alerts`
 - [ ] **Phase 7 — Chaos & postmortems**: `docs/postmortems/`
 

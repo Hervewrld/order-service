@@ -1,6 +1,7 @@
 services:
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -11,6 +12,7 @@ services:
     build:
       context: ..
       dockerfile: docker/api.Dockerfile
+    restart: unless-stopped
     ports:
       - "8000:8000"
     environment:
@@ -24,6 +26,7 @@ services:
     build:
       context: ..
       dockerfile: docker/worker.Dockerfile
+    restart: unless-stopped
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379

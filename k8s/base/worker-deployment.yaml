@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: worker
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9100"
     spec:
       initContainers:
         - name: wait-for-redis
@@ -25,6 +28,9 @@ spec:
         - name: worker
           image: order-service-worker:local
           imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9100
+              name: metrics
           envFrom:
             - configMapRef:
                 name: order-service-config

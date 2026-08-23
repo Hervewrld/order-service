@@ -1,0 +1,52 @@
+groups:
+  - name: order-service
+    rules:
+      - alert: APIDown
+        expr: up{job="api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "order-service API is down"
+          description: "Prometheus has not been able to scrape the api target for 1 minute."
+
+      - alert: WorkerDown
+        expr: up{job="worker"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "order-service worker is down"
+          description: "Prometheus has not been able to scrape the worker target for 1 minute."
+
+      - alert: HighAPIErrorRate
+        expr: |
+          (
+            sum(rate(api_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(api_requests_total[5m]))
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API 5xx error rate above 5%"
+          description: "More than 5% of API requests have returned a 5xx status over the last 5 minutes."
+
+      - alert: HighAPILatencyP95
+        expr: |
+          histogram_quantile(0.95, sum(rate(api_request_latency_seconds_bucket[5m])) by (le)) > 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API p95 latency above 1s"
+          description: "95th percentile request latency has been above 1 second for 5 minutes."
+
+      - alert: WorkerProcessingFailures
+        expr: increase(worker_orders_processed_total{status="failed"}[10m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "Worker order processing failures"
+          description: "At least one order failed processing in the last 10 minutes."
